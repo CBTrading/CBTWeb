@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, request
 
-from pyCBT.data.providers.oanda import historical
-from pyCBT.data.providers.oanda import account
+from pyCBT.providers.oanda import historical
+from pyCBT.providers.oanda import account
 
 import oandapyV20
 from oandapyV20.endpoints.accounts import AccountInstruments
