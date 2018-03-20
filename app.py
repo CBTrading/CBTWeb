@@ -6,25 +6,7 @@ from pyCBT.providers.oanda import account
 import oandapyV20
 from oandapyV20.endpoints.accounts import AccountInstruments
 
-# ERROR: implement this first block as a function and run it before app.run
-# get account summary
-client = account.Client()
-# get tradeable instruments & define choices list
-r = AccountInstruments(accountID=client.account_summary.get("account"))
-client.api.request(r)
-response = r.response.get("instruments")
-# restructure response & filter unwanted fields
-instruments = {"symbol": [], "name": [], "type": []}
-for instrument in response:
-    for kw in instrument:
-        if kw == "displayName":
-            instruments["name"] += [instrument[kw]]
-        elif kw == "type":
-            instruments["type"] += [instrument[kw]]
-        elif kw == "name":
-            instruments["symbol"] += [instrument[kw]]
-        else:
-            continue
+
 # define defaults
 default_instruments = {"candles": "WTICO_USD", "charts": ["EUR_USD", "USD_JPY", "GBP_USD", "XAU_USD"]}
 default_resolutions = {"candles": "H1", "charts": "H1"}
