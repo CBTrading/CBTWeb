@@ -1,11 +1,12 @@
+window.onload = function() {
   // set the allowed units for data grouping
   groupingUnits = [[
-    'week',                         // unit name
+    'hour',                         // unit name
     [1]                             // allowed multiples
   ],
   [
-    'month',
-    [1, 2, 3, 4, 6]
+    'day',
+    [1,5]
   ]],
 
   // create the chart
@@ -67,4 +68,5 @@
         units: groupingUnits
       }
     }]
-});
+  });
+};
