@@ -17,14 +17,14 @@
   <!--2nd column: display live candlesticks-->
   <!--    display forms-->
   <!--    display charts-->
+  <div id="candles" styles="width: 70%; height: 400px;"></div>
   <!--3rd column: display streaming prices for selected instruments-->
   <!--    display forms-->
   <!--    display heatmap, correlation & volatility charts-->
-  <div class="candles" styles="width: 70%; height: 400px;"></div>
 {% endblock %}
 
 {% block footer %}{{super()}}{% endblock %}
 
 {% block js %}
-  {% include 'includes/candles.html.j2' %}
+  {% include '_includes/candles.html.j2' %}
 {% endblock %}
