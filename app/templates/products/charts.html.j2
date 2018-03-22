@@ -16,6 +16,26 @@
   <!--1st column: display relevant news-->
   <!--2nd column: display live candlesticks-->
   <!--    display forms-->
+  <form id="candles-form" action="{{url_for('products.charts')}}" method="POST">
+    {{ form.csrf_token }}
+    {{ form.instrument.label }} {{ form.instrument }}
+    {% for error in form.instrument.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    {{ form.resolution.label }} {{ form.resolution }}
+    {% for error in form.resolution.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    {{ form.start_datetime.label }} {{ form.start_datetime }}
+    {% for error in form.start_datetime.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    {{ form.end_datetime.label }} {{ form.end_datetime }}
+    {% for error in form.end_datetime.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    <input type="submit" value="Update" />
+  </form>
   <!--    display charts-->
   <div id="candles" styles="width: 70%; height: 400px;"></div>
   <!--3rd column: display streaming prices for selected instruments-->
