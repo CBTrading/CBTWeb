@@ -1,9 +1,4 @@
 from flask import Flask, render_template
-from pyCBT.providers.oanda import account
-
-client = account.Client()
-
-instruments = account.Instruments(client)
 
 app = Flask(__name__)
 
