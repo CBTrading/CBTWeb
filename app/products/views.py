@@ -1,12 +1,11 @@
 from flask import Blueprint, render_template, url_for, request
 
 from pyCBT.providers.oanda import historical
-from .. import client, instruments
 
-default_instruments = {"candles": "WTICO_USD", "charts": ["EUR_USD", "USD_JPY", "GBP_USD", "XAU_USD"]}
-default_resolutions = {"candles": "H1", "charts": "H1"}
-default_datetimes = {"candles": ("2018-02-01", "2018-02-10"), "charts": ("2018-02-01", "2018-02-10")}
-default_timezone = "America/New_York"
+from . import client, instruments, default_instruments, default_resolutions
+from . import default_datetimes, default_timezone, default_names
+from .forms import CandlesForm
+
 
 products = Blueprint("products", __name__, url_prefix="/")
 
