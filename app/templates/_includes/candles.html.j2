@@ -16,7 +16,7 @@ window.onload = function() {
     },
 
     title: {
-      text: '{{candles_symbol}}'
+      text: '{{candles.get("name")}}'
     },
 
     yAxis: [{
@@ -53,8 +53,8 @@ window.onload = function() {
 
     series: [{
       type: 'candlestick',
-      name: '{{candles_symbol}}',
-      data: {{ohlc}},
+      name: '{{candles.get("name")}}',
+      data: {{candles.get("ohlc")}},
       dataGrouping: {
         units: groupingUnits
       }
@@ -62,7 +62,7 @@ window.onload = function() {
     {
       type: 'column',
       name: 'Volume',
-      data: {{volume}},
+      data: {{candles.get("volume")}},
       yAxis: 1,
       dataGrouping: {
         units: groupingUnits
