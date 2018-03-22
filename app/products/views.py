@@ -15,44 +15,45 @@ def index():
 
 @products.route("charts/", methods=["GET", "POST"])
 def charts():
-    if request.method == "POST":
-        pass
-    #   get historical parameters from POST request
-    #   update charts with input parameters
-    #   update defaults to input parameters
-    else:
-        pass
-    #   show charts for default historical values (now)
-        candles = historical.Candles(
-            client=client,
-            instrument=default_instruments["candles"],
-            resolution=default_resolutions["candles"],
-            from_date=default_datetimes["candles"][0],
-            to_date=default_datetimes["candles"][1],
-            datetime_fmt="JSON",
-            timezone=default_timezone
-        )
-        candles = candles.as_dictionary()
-        ohlc = []
-        volume = []
-        for i in xrange(len(candles["Datetime"])):
-            ohlc += [[
-                candles["Datetime"][i],
-                candles["Open"][i],
-                candles["High"][i],
-                candles["Low"][i],
-                candles["Close"][i]
-            ]]
-            volume += [[
-                candles["Datetime"][i],
-                candles["Volume"][i]
-            ]]
+    form = CandlesForm()
+    if form.validate_on_submit():
+        default_instruments["candles"] = form.instrument.data
+        default_resolutions["candles"] = form.resolution.data
+        default_datetimes["candles"] = (form.start_datetime.data.isoformat(), form.end_datetime.data.isoformat())
+        default_names["candles"] = instruments["name"][instruments["symbol"].index(form.instrument.data)]
 
-    #   show the form for updating historical parameters
+    candles = historical.Candles(
+        client=client,
+        instrument=default_instruments["candles"],
+        resolution=default_resolutions["candles"],
+        from_date=default_datetimes["candles"][0],
+        to_date=default_datetimes["candles"][1],
+        datetime_fmt="JSON",
+        timezone=default_timezone
+    ).as_dictionary()
+    ohlc = []
+    volume = []
+    for i in xrange(len(candles["Datetime"])):
+        ohlc += [[
+            candles["Datetime"][i],
+            candles["Open"][i],
+            candles["High"][i],
+            candles["Low"][i],
+            candles["Close"][i]
+        ]]
+        volume += [[
+            candles["Datetime"][i],
+            candles["Volume"][i]
+        ]]
+
+    candles_data = {
+        "name": default_names["candles"],
+        "ohlc": ohlc,
+        "volume": volume
+    }
 
     return render_template(
         "products/charts.html.j2",
-        candles_symbol=instruments.table["name"][instruments.table["symbol"].index(default_instruments["candles"])],
-        ohlc=ohlc,
-        volume=volume
+        candles=candles_data,
+        form=form
     )
