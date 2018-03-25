@@ -19,4 +19,13 @@ candles_def = {
     "datetimes": datetimes_def,
     "timezone": timezone_def
 }
+
+correlations_def = {
+    "refer_symbol": candles_symbol,
+    "other_symbols": charts_symbols,
+    "categories": [instruments["name"][instruments["symbol"].index(symbol)] for symbol in charts_symbols],
+    "resolution": resolution_def,
+    "datetimes": datetimes_def,
+    "timeframe": charts_time_groups[resolution_def][0],
+    "timezone": timezone_def
 }
