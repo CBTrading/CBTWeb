@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, url_for, request
 
-from . import client, instruments, candles_def
+from . import client, instruments, candles_def, correlations_def
 from .forms import CandlesForm
-from .charts import get_candles_data
+from .charts import get_candles_data, get_correlation_data
 
 
 products = Blueprint("products", __name__, url_prefix="/")
@@ -23,5 +23,6 @@ def charts():
         })
 
     candles_data = get_candles_data(client, **candles_def)
+    print get_correlation_data(client, **correlations_def)
 
     return render_template("products/charts.html.j2", candles=candles_data, form=form)
