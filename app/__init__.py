@@ -4,6 +4,12 @@ app = Flask(__name__)
 
 app.config.from_object("config")
 
+@app.after_request
+def add_header(response):
+    response.cache_control.max_age = 300
+    if 'Cache-Control' not in response.headers:
+        response.headers['Cache-Control'] = 'no-store'
+    return response
 
 @app.errorhandler(404)
 def not_found(error):
