@@ -73,6 +73,12 @@ var RenderCandlesticks = function(name, candles, volume) {
       dataGrouping: {
         units: groupingUnits
       }
-    }]
+    }],
+    credits: {
+      enabled: false
+    },
+    exporting: {
+      enabled: false
+    }
   });
 };

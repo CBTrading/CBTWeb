@@ -41,6 +41,12 @@ var RenderCorrelations = function(name, symbols, negativeCorrelations, positiveC
           name: 'Positive Correlations',
           data: positiveCorrelations,
           pointPlacement: 'on'
-      }]
+      }],
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      }
   });
 };
