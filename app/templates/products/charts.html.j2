@@ -2,11 +2,12 @@
 
 {% block title %}Products {{super()}} {% endblock %}
 
-{% block highcharts %}
+{% block extras %}
   <!-- ERROR: highcharts is not working -->
   <!-- <script src="{{url_for('static', filename='js/highcharts.js')}}"></script>
   <script src="{{url_for('static', filename='js/modules/stock.js')}}"></script> -->
   <script src="https://code.highcharts.com/highcharts.src.js"></script>
+  <script src="https://code.highcharts.com/highcharts-more.src.js"></script>
   <script src="https://code.highcharts.com/modules/stock.src.js"></script>
 {% endblock %}
 
@@ -41,6 +42,7 @@
   <!--3rd column: display streaming prices for selected instruments-->
   <!--    display forms-->
   <!--    display heatmap, correlation & volatility charts-->
+  <div id="correlations" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto"></div>
 {% endblock %}
 
 {% block footer %}{{super()}}{% endblock %}
