@@ -1,31 +1,39 @@
-window.onload = function() {
-  // set the allowed units for data grouping
+var RenderCandlesticks = function(name, candles, volume) {
   groupingUnits = [[
-    'hour',                         // unit name
-    [1]                             // allowed multiples
-  ],
-  [
-    'day',
-    [1,5]
-  ]],
-
-  // create the chart
-  Highcharts.stockChart('candles', {
+      'hour',                         // unit name
+      [1, 4, 8, 12]                   // allowed multiples
+    ],
+    [
+      'day',
+      [1, 5, 14, 22]
+    ],
+    [
+      'week',
+      [1, 2, 4, 6, 12],
+    ],
+    [
+      'month',
+      [1, 4, 6, 12]
+    ],
+    [
+      'year',
+      [1, 4, 6, 10]
+    ]
+  ];
+  return Highcharts.stockChart('candles', {
     rangeSelector: {
       selected: 1
     },
-
     title: {
-      text: '{{candles.get("name")}}'
+      text: name
     },
-
     yAxis: [{
       labels: {
         align: 'right',
         x: -3
       },
       title: {
-        text: 'OHLC'
+        text: 'Prices'
       },
       height: '60%',
       lineWidth: 2,
@@ -46,15 +54,13 @@ window.onload = function() {
       offset: 0,
       lineWidth: 2
     }],
-
     tooltip: {
       split: true
     },
-
     series: [{
       type: 'candlestick',
-      name: '{{candles.get("name")}}',
-      data: {{candles.get("ohlc")}},
+      name: name,
+      data: candles,
       dataGrouping: {
         units: groupingUnits
       }
@@ -62,7 +68,7 @@ window.onload = function() {
     {
       type: 'column',
       name: 'Volume',
-      data: {{candles.get("volume")}},
+      data: volume,
       yAxis: 1,
       dataGrouping: {
         units: groupingUnits
