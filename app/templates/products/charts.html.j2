@@ -48,5 +48,23 @@
 {% block footer %}{{super()}}{% endblock %}
 
 {% block js %}
-  {% include '_includes/candles.html.j2' %}
+  <script src="{{url_for('static', filename='js/products/candles.js')}}"></script>
+  <script src="{{url_for('static', filename='js/products/correlations.js')}}"></script>
+  <script src="{{url_for('static', filename='js/products/volatility.js')}}"></script>
+  <script>
+    window.onload = function() {
+
+      RenderCandlesticks(
+        name={{candles.name|tojson|safe}},
+        candles={{candles.ohlc|tojson|safe}},
+        volume={{candles.volume|tojson|safe}}
+      );
+      RenderCorrelations(
+        name={{correlations.name|tojson|safe}},
+        categories={{correlations.categories|tojson|safe}},
+        negativeCorrelations={{correlations.series.negative|tojson|safe}},
+        positiveCorrelations={{correlations.series.positive|tojson|safe}}
+      );
+    };
+  </script>
 {% endblock %}
