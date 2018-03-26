@@ -21,8 +21,19 @@ def charts():
             "resolution": form.resolution.data,
             "datetimes": (form.start_datetime.data.isoformat(), form.end_datetime.data.isoformat())
         })
+        correlations_def.update({
+            "refer_symbol": form.instrument.data,
+            "name": instruments["name"][instruments["symbol"].index(form.instrument.data)],
+            "resolution": form.resolution.data,
+            "datetimes": (form.start_datetime.data.isoformat(), form.end_datetime.data.isoformat())
+        })
 
     candles_data = get_candles_data(client, **candles_def)
-    print get_correlation_data(client, **correlations_def)
+    correlations_data = get_correlation_data(client, **correlations_def)
 
-    return render_template("products/charts.html.j2", candles=candles_data, form=form)
+    return render_template(
+        "products/charts.html.j2",
+        candles=candles_data,
+        correlations=correlations_data,
+        form=form
+    )
