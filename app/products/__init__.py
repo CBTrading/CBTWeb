@@ -23,6 +23,7 @@ candles_def = {
 correlations_def = {
     "refer_symbol": candles_symbol,
     "other_symbols": charts_symbols,
+    "name": instruments["name"][instruments["symbol"].index(candles_symbol)],
     "categories": [instruments["name"][instruments["symbol"].index(symbol)] for symbol in charts_symbols],
     "resolution": resolution_def,
     "datetimes": datetimes_def,
