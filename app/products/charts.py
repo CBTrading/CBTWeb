@@ -52,7 +52,14 @@ def get_correlation_data(client, **kwargs):
         timezone=kwargs.get("timezone")
     ).as_dictionary()[kwargs.get("price", "Close")][-kwargs.get("timeframe"):]
     # download datasets
-    data = {"categories": kwargs.get("categories"), "series": {"negative": [], "positive": []}}
+    data = {
+        "name": kwargs.get("name"),
+        "categories": kwargs.get("categories"),
+        "series": {
+            "negative": [],
+            "positive": []
+        }
+    }
     for symbol in kwargs.get("other_symbols"):
         price_j = historical.Candles(
             client=client,
