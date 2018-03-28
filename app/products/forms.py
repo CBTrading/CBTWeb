@@ -11,12 +11,17 @@ class DatePickerWidget(object):
 
     https://github.com/dpgaspar/Flask-AppBuilder/blob/master/flask_appbuilder/fieldwidgets.py#L5
     """
-    data_template = ('<div class="input-group date appbuilder_date" id="datepicker">'
-                    '<span class="input-group-addon"><i class="fa fa-calendar cursor-hand"></i>'
-                    '</span>'
-                    '<input class="form-control" data-format="yyyy-MM-dd" %(text)s/>'
-                    '</div>'
-                    )
+    data_template = ('<div id="datetimepicker" class="input-append">'
+                     '<input data-format="yyyy-MM-dd" type="text"></input>'
+                     '<span class="add-on">'
+                     '<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>'
+                     '</span>'
+                     '</div>')
+                    # '<div class="input-group date appbuilder_date" id="datepicker">'
+                    # '<span class="input-group-addon"><i class="fa fa-calendar cursor-hand"></i>'
+                    # '</span>'
+                    # '<input data-format="yyyy-MM-dd" %(text)s/>'
+                    # '</div>'
 
     def __call__(self, field, **kwargs):
         kwargs.setdefault('id', field.id)

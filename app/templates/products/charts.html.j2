@@ -6,6 +6,11 @@
   <!-- ERROR: highcharts is not working -->
   <!-- <script src="{{url_for('static', filename='js/highcharts.js')}}"></script>
   <script src="{{url_for('static', filename='js/modules/stock.js')}}"></script> -->
+  <!-- <link
+    rel="stylesheet"
+    type="text/css"
+    media="screen"
+    href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css"> -->
   <script src="https://code.highcharts.com/highcharts.src.js"></script>
   <script src="https://code.highcharts.com/highcharts-more.src.js"></script>
   <script src="https://code.highcharts.com/modules/stock.src.js"></script>
@@ -48,6 +53,9 @@
 {% block footer %}{{super()}}{% endblock %}
 
 {% block js %}
+  <script
+    type="text/javascript"
+    src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js"></script>
   <script src="{{url_for('static', filename='js/products/candles.js')}}"></script>
   <script src="{{url_for('static', filename='js/products/correlations.js')}}"></script>
   <script src="{{url_for('static', filename='js/products/volatility.js')}}"></script>
@@ -65,6 +73,16 @@
         negativeCorrelations={{correlations.series.negative|tojson|safe}},
         positiveCorrelations={{correlations.series.positive|tojson|safe}}
       );
+      $(function() {
+        $('#datetimepicker').datetimepicker({
+          pickTime: false
+        });
+      });
+      // $(function() {
+      //   $('#datetimepicker-to').datetimepicker({
+      //     pickTime: false
+      //   });
+      // });
     };
   </script>
 {% endblock %}
