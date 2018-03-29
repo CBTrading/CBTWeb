@@ -49,29 +49,27 @@
   <script src="{{url_for('static', filename='js/products/correlations.js')}}"></script>
   <script src="{{url_for('static', filename='js/products/volatility.js')}}"></script>
   <script>
-    window.onload = function() {
+    $(document).ready(function() {
+
+      $('.input-daterange').datepicker({
+        format: "dd/mm/yyyy",
+        todayBtn: "linked",
+        clearBtn: true,
+        orientation: "bottom auto",
+        todayHighlight: true
+      });
 
       RenderCandlesticks(
         name={{candles.name|tojson|safe}},
         candles={{candles.ohlc|tojson|safe}},
         volume={{candles.volume|tojson|safe}}
       );
-      RenderCorrelations(
-        name={{correlations.name|tojson|safe}},
-        categories={{correlations.categories|tojson|safe}},
-        negativeCorrelations={{correlations.series.negative|tojson|safe}},
-        positiveCorrelations={{correlations.series.positive|tojson|safe}}
-      );
-      $(function() {
-        $('#datetimepicker').datetimepicker({
-          pickTime: false
-        });
-      });
-      // $(function() {
-      //   $('#datetimepicker-to').datetimepicker({
-      //     pickTime: false
-      //   });
-      // });
-    };
+      // RenderCorrelations(
+      //   name={{correlations.name|tojson|safe}},
+      //   categories={{correlations.categories|tojson|safe}},
+      //   negativeCorrelations={{correlations.series.negative|tojson|safe}},
+      //   positiveCorrelations={{correlations.series.positive|tojson|safe}}
+      // );
+    });
   </script>
 {% endblock %}
