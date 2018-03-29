@@ -19,13 +19,13 @@ def charts():
             "symbol": form.instrument.data,
             "name": instruments["name"][instruments["symbol"].index(form.instrument.data)],
             "resolution": form.resolution.data,
-            "datetimes": (form.start_datetime.data, form.end_datetime.data)
+            "datetimes": form.datetime_range.data
         })
         correlations_def.update({
             "refer_symbol": form.instrument.data,
             "name": instruments["name"][instruments["symbol"].index(form.instrument.data)],
             "resolution": form.resolution.data,
-            "datetimes": (form.start_datetime.data, form.end_datetime.data)
+            "datetimes": form.datetime_range.data
         })
 
     candles_data = get_candles_data(client, **candles_def)
