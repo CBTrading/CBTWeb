@@ -1,85 +1,129 @@
 import numpy as np
 from pyCBT.providers.oanda import historical
 
+from . import instruments
 
-# TODO: function to build other_candles data ready for Highcharts
-def get_candles_data(client, **kwargs):
-    """Returns the candles data dictionary
-    """
-    candles = historical.Candles(
-        client=client,
-        instrument=kwargs.get("symbol"),
-        resolution=kwargs.get("resolution"),
-        from_date=kwargs.get("datetimes")[0],
-        to_date=kwargs.get("datetimes")[1],
-        datetime_fmt="JSON",
-        timezone=kwargs.get("timezone")
-    ).as_dictionary()
+class Datasets(object):
 
-    ohlc = []
-    volume = []
-    for i in xrange(len(candles["Datetime"])):
-        ohlc += [[
-            candles["Datetime"][i],
-            candles["Open"][i],
-            candles["High"][i],
-            candles["Low"][i],
-            candles["Close"][i]
-        ]]
-        volume += [[
-            candles["Datetime"][i],
-            candles["Volume"][i]
-        ]]
+    def __init__(self, client, settings):
+        self.client = client
+        self.settings = settings
 
-    data = {
-        "name": kwargs.get("name"),
-        "ohlc": ohlc,
-        "volume": volume
-    }
-
-    return data
-
-# TODO: function to build correlation data ready for Highcharts
-def get_correlation_data(client, **kwargs):
-    # download reference candles
-    price_i = historical.Candles(
-        client=client,
-        instrument=kwargs.get("refer_symbol"),
-        resolution=kwargs.get("resolution"),
-        from_date=kwargs.get("datetimes")[0],
-        to_date=kwargs.get("datetimes")[1],
-        datetime_fmt="JSON",
-        timezone=kwargs.get("timezone")
-    ).as_dictionary()[kwargs.get("price", "Close")][-kwargs.get("timeframe"):]
-    # download datasets
-    data = {
-        "name": kwargs.get("name"),
-        "categories": kwargs.get("categories"),
-        "series": {
-            "negative": [],
-            "positive": []
-        }
-    }
-    for symbol in kwargs.get("other_symbols"):
-        price_j = historical.Candles(
-            client=client,
-            instrument=symbol,
-            resolution=kwargs.get("resolution"),
-            from_date=kwargs.get("datetimes")[0],
-            to_date=kwargs.get("datetimes")[1],
+    def download(self):
+        data = historical.Candles(
+            client=self.client,
+            instrument=self.settings.get("candles_symbol"),
+            resolution=self.settings.get("resolution"),
+            from_date=self.settings.get("datetimes")[0],
+            to_date=self.settings.get("datetimes")[1],
             datetime_fmt="JSON",
-            timezone=kwargs.get("timezone")
-        ).as_dictionary()[kwargs.get("price", "Close")][-kwargs.get("timeframe"):]
-        # compute correlations
-        corr_ij = np.corrcoef(price_i, price_j)[1, 0]
-        # format datasets in lists ordered according to names list
-        if corr_ij < 0:
-            data["series"]["negative"] += [-corr_ij]
-            data["series"]["positive"] += [0.0]
-        else:
-            data["series"]["negative"] += [0.0]
-            data["series"]["positive"] += [corr_ij]
+            timezone=self.settings.get("timezone")
+        ).as_dictionary()
+        self.for_candles = {"name": instruments[self.settings.get("candles_symbol")]["name"], "data": data}
 
-    return data
+        price_i = self.for_candles[self.settings.get("price", "Close")][-self.settings.get("timeframe"):]
+        prices_j = []
+        for symbol in self.settings.get("charts_symbols"):
+            prices_j += [
+                historical.Candles(
+                    client=client,
+                    instrument=symbol,
+                    resolution=self.settings.get("resolution"),
+                    from_date=self.settings.get("datetimes")[0],
+                    to_date=self.settings.get("datetimes")[1],
+                    datetime_fmt="JSON",
+                    timezone=self.settings.get("timezone")
+                ).as_dictionary()[self.settings.get("price", "Close")][-self.settings.get("timeframe"):]
+            ]
+        self.for_charts = {
+            "name_i": instruments[self.settings.get("candles_symbol")]["name"],
+            "names_j": [instruments[symbol]["name"] for symbol in self.settings.get("other_names")],
+            "price_i": price_i,
+            "prices_j": prices_j
+        }
 
-# TODO: function to build volatility data ready for Highcharts
+    def get_highcharts_candles(self):
+        """Returns the candles data dictionary
+        """
+        ohlc = []
+        volume = []
+        for i in xrange(len(self.for_candles["data"]["Datetime"])):
+            ohlc += [[
+                self.for_candles["data"]["Datetime"][i],
+                self.for_candles["data"]["Open"][i],
+                self.for_candles["data"]["High"][i],
+                self.for_candles["data"]["Low"][i],
+                self.for_candles["data"]["Close"][i]
+            ]]
+            volume += [[
+                self.for_candles["data"]["Datetime"][i],
+                self.for_candles["data"]["Volume"][i]
+            ]]
+
+        data = {
+            "name": self.for_candles["name"],
+            "ohlc": ohlc,
+            "volume": volume
+        }
+        return data
+
+    def get_highcharts_correlations(self):
+        data = {
+            "name": self.for_charts["name_i"],
+            "categories": self.for_charts["names_j"],
+            "series": {
+                "negative": [],
+                "positive": []
+            }
+        }
+        price_i = self.for_charts["data"]["price_i"]
+        for price_j in self.for_charts["data"]["prices_j"]:
+            corr_ij = np.corrcoef(price_i, price_j)[1, 0]
+            if corr_ij < 0:
+                data["series"]["negative"] += [-corr_ij]
+                data["series"]["positive"] += [0.0]
+            else:
+                data["series"]["negative"] += [0.0]
+                data["series"]["positive"] += [corr_ij]
+
+        return data
+
+    def get_highcharts_heatmap(self):
+        data = {
+            "name": self.for_charts["refer_name"],
+            "categories": self.for_charts["other_names"],
+            "series": {
+                "negative": [],
+                "positive": []
+            }
+        }
+        price_i = self.for_charts["data"]["price_i"]
+        for price_j in self.for_charts["data"]["prices_j"]:
+            # TODO: parse symbol name:
+            #       * is there a common & currency? NO: cycle
+            #       * is common currency above or below
+            #       * compute exrate_ij = price_j / price_i
+            #       * compute heat_ij = (exrate_ij[-1] - exrate_ij[0]) / exrate_ij[0] * 100.0
+            exrate_ij = price_j / price_i
+            heat_ij = (exrate_ij[-1] - exrate_ij[0]) / exrate_ij[0] * 100.0
+            if heat_ij < 0:
+                data["series"]["negative"] += [-heat_ij]
+                data["series"]["positive"] += [0.0]
+            else:
+                data["series"]["negative"] += [0.0]
+                data["series"]["positive"] += [heat_ij]
+
+        return data
+
+    def get_highcharts_volatility(self):
+        data = {
+            "name": self.for_charts["refer_name"],
+            "categories": self.for_charts["other_names"],
+            "volatility": []
+        }
+        for price_j in self.for_charts["data"]["prices_j"]:
+            mu = np.median(price_j)
+            sg = np.percentile(price_j, [16, 84])
+            data["volatility"] += [[round((sg[0]/mu-1)*100, 2), round((sg[1]/mu-1)*100, 2)]]
+
+        return data
