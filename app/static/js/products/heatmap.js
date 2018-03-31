@@ -1,20 +1,21 @@
-var RenderHeatmaps function(name, symbols, negativeHeat, positiveHeat) {
+var RenderHeatmap = function(name, symbols, negativeHeat, positiveHeat) {
 
-  Highcharts.chart('container', {
+  Highcharts.chart('heatmap', {
       chart: {
           type: 'bar'
       },
       title: {
           text: name
       },
-      xAxis: [{
+      xAxis: [
+        {
           categories: symbols,
           reversed: false,
           labels: {
               step: 1
           }
-      },
-      {
+        },
+        {
           opposite: true,
           reversed: false,
           categories: symbols,
@@ -22,7 +23,8 @@ var RenderHeatmaps function(name, symbols, negativeHeat, positiveHeat) {
           labels: {
               step: 1
           }
-      }],
+        }
+      ],
       yAxis: {
           title: {
               text: null
@@ -44,13 +46,16 @@ var RenderHeatmaps function(name, symbols, negativeHeat, positiveHeat) {
                   'Population: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
           }
       },
-      series: [{
+      series: [
+        {
           name: 'Negative',
           data: negativeHeat
-      }, {
+        },
+        {
           name: 'Positive',
           data: positiveHeat
-      }],
+        }
+      ],
       credits: {
         enabled: false
       },
