@@ -78,9 +78,10 @@
 {% block footer %}{{super()}}{% endblock %}
 
 {% block js %}
-  <script src="{{url_for('static', filename='js/products/candles.js')}}"></script>
-  <script src="{{url_for('static', filename='js/products/correlations.js')}}"></script>
-  <script src="{{url_for('static', filename='js/products/volatility.js')}}"></script>
+  <script src="{{ url_for('static', filename='js/products/candles.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/products/correlations.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/products/heatmap.js') }}"></script>
+  <!-- <script src="{{ url_for('static', filename='js/products/volatility.js') }}"></script> -->
   <script>
     $(document).ready(function() {
 
@@ -104,7 +105,7 @@
         negativeCorrelations={{ correlations.series.negative|tojson|safe }},
         positiveCorrelations={{ correlations.series.positive|tojson|safe }}
       );
-      RenderHeatmaps(
+      RenderHeatmap(
         name={{ heatmap.name|tojson|safe }},
         symbols={{ heatmap.categories|tojson|safe }},
         negativeHeat={{ heatmap.series.negative|tojson|safe }},
