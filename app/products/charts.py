@@ -107,7 +107,7 @@ class Datasets(object):
             exrate_ij = np.array(price_j) / np.array(price_i)
             heat_ij = (exrate_ij[-1] - exrate_ij[0]) / exrate_ij[0] * 100.0
             if heat_ij < 0:
-                data["series"]["negative"] += [-heat_ij]
+                data["series"]["negative"] += [heat_ij]
                 data["series"]["positive"] += [0.0]
             else:
                 data["series"]["negative"] += [0.0]
