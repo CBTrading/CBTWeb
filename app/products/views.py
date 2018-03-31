@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, url_for, request
 
-from . import client, instruments, candles_def, correlations_def
+from . import client, instruments, settings_default
 from .forms import CandlesForm
-from .charts import get_candles_data, get_correlation_data
+from .charts import Datasets
 
 
 products = Blueprint("products", __name__, url_prefix="/")
@@ -13,27 +13,21 @@ def index():
 
 @products.route("charts/", methods=["GET", "POST"])
 def charts():
+    datasets = Datasets(client, settings=settings_default)
     form = CandlesForm()
     if form.validate_on_submit():
-        candles_def.update({
-            "symbol": form.instrument.data,
-            "name": instruments["name"][instruments["symbol"].index(form.instrument.data)],
+        datasets.settings.update({
+            "candles_symbol": form.instrument.data,
             "resolution": form.resolution.data,
             "datetimes": form.datetime_range.data
         })
-        correlations_def.update({
-            "refer_symbol": form.instrument.data,
-            "name": instruments["name"][instruments["symbol"].index(form.instrument.data)],
-            "resolution": form.resolution.data,
-            "datetimes": form.datetime_range.data
-        })
-
-    candles_data = get_candles_data(client, **candles_def)
-    correlations_data = get_correlation_data(client, **correlations_def)
+    datasets.download()
 
     return render_template(
         "products/charts.html.j2",
-        candles=candles_data,
-        correlations=correlations_data,
-        form=form
+        form=form,
+        candles=datasets.get_highcharts_candles(),
+        correlations=datasets.get_highcharts_correlations(),
+        heatmap=datasets.get_highcharts_volatility(),
+        volatility=datasets.get_highcharts_volatility()
     )
