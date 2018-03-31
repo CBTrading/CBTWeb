@@ -63,7 +63,7 @@
       <!--    display forms-->
       <!--    display heatmap, correlation & volatility charts-->
       <div class="row">
-        <!-- <div id="correlations"></div> -->
+        <div id="correlations"></div>
       </div>
       <div class="row">
         <div id="volatility"></div>
@@ -94,16 +94,22 @@
       });
 
       RenderCandlesticks(
-        name={{candles.name|tojson|safe}},
-        candles={{candles.ohlc|tojson|safe}},
-        volume={{candles.volume|tojson|safe}}
+        name={{ candles.name|tojson|safe }},
+        candles={{ candles.ohlc|tojson|safe }},
+        volume={{ candles.volume|tojson|safe }}
       );
-      // RenderCorrelations(
-      //   name={{correlations.name|tojson|safe}},
-      //   categories={{correlations.categories|tojson|safe}},
-      //   negativeCorrelations={{correlations.series.negative|tojson|safe}},
-      //   positiveCorrelations={{correlations.series.positive|tojson|safe}}
-      // );
+      RenderCorrelations(
+        name={{ correlations.name|tojson|safe }},
+        categories={{ correlations.categories|tojson|safe }},
+        negativeCorrelations={{ correlations.series.negative|tojson|safe }},
+        positiveCorrelations={{ correlations.series.positive|tojson|safe }}
+      );
+      RenderHeatmaps(
+        name={{ heatmap.name|tojson|safe }},
+        symbols={{ heatmap.categories|tojson|safe }},
+        negativeHeat={{ heatmap.series.negative|tojson|safe }},
+        positiveHeat={{ heatmap.series.positive|tojson|safe }}
+      );
     });
   </script>
 {% endblock %}

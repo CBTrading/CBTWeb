@@ -21,12 +21,12 @@ class Datasets(object):
         ).as_dictionary()
         self.for_candles = {"name": instruments[self.settings.get("candles_symbol")]["name"], "data": data}
 
-        price_i = self.for_candles[self.settings.get("price", "Close")][-self.settings.get("timeframe"):]
+        price_i = self.for_candles["data"][self.settings.get("price", "Close")][-self.settings.get("timeframe"):]
         prices_j = []
         for symbol in self.settings.get("charts_symbols"):
             prices_j += [
                 historical.Candles(
-                    client=client,
+                    client=self.client,
                     instrument=symbol,
                     resolution=self.settings.get("resolution"),
                     from_date=self.settings.get("datetimes")[0],
@@ -37,7 +37,7 @@ class Datasets(object):
             ]
         self.for_charts = {
             "name_i": instruments[self.settings.get("candles_symbol")]["name"],
-            "names_j": [instruments[symbol]["name"] for symbol in self.settings.get("other_names")],
+            "names_j": [instruments[symbol]["name"] for symbol in self.settings.get("charts_symbols")],
             "price_i": price_i,
             "prices_j": prices_j
         }
@@ -76,8 +76,8 @@ class Datasets(object):
                 "positive": []
             }
         }
-        price_i = self.for_charts["data"]["price_i"]
-        for price_j in self.for_charts["data"]["prices_j"]:
+        price_i = self.for_charts["price_i"]
+        for price_j in self.for_charts["prices_j"]:
             corr_ij = np.corrcoef(price_i, price_j)[1, 0]
             if corr_ij < 0:
                 data["series"]["negative"] += [-corr_ij]
@@ -90,21 +90,21 @@ class Datasets(object):
 
     def get_highcharts_heatmap(self):
         data = {
-            "name": self.for_charts["refer_name"],
-            "categories": self.for_charts["other_names"],
+            "name": self.for_charts["name_i"],
+            "categories": self.for_charts["names_j"],
             "series": {
                 "negative": [],
                 "positive": []
             }
         }
-        price_i = self.for_charts["data"]["price_i"]
-        for price_j in self.for_charts["data"]["prices_j"]:
+        price_i = self.for_charts["price_i"]
+        for price_j in self.for_charts["prices_j"]:
             # TODO: parse symbol name:
             #       * is there a common & currency? NO: cycle
             #       * is common currency above or below
             #       * compute exrate_ij = price_j / price_i
             #       * compute heat_ij = (exrate_ij[-1] - exrate_ij[0]) / exrate_ij[0] * 100.0
-            exrate_ij = price_j / price_i
+            exrate_ij = np.array(price_j) / np.array(price_i)
             heat_ij = (exrate_ij[-1] - exrate_ij[0]) / exrate_ij[0] * 100.0
             if heat_ij < 0:
                 data["series"]["negative"] += [-heat_ij]
@@ -117,11 +117,11 @@ class Datasets(object):
 
     def get_highcharts_volatility(self):
         data = {
-            "name": self.for_charts["refer_name"],
-            "categories": self.for_charts["other_names"],
+            "name": self.for_charts["name_i"],
+            "categories": self.for_charts["names_j"],
             "volatility": []
         }
-        for price_j in self.for_charts["data"]["prices_j"]:
+        for price_j in self.for_charts["prices_j"]:
             mu = np.median(price_j)
             sg = np.percentile(price_j, [16, 84])
             data["volatility"] += [[round((sg[0]/mu-1)*100, 2), round((sg[1]/mu-1)*100, 2)]]

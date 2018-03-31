@@ -28,6 +28,6 @@ def charts():
         form=form,
         candles=datasets.get_highcharts_candles(),
         correlations=datasets.get_highcharts_correlations(),
-        heatmap=datasets.get_highcharts_volatility(),
+        heatmap=datasets.get_highcharts_heatmap(),
         volatility=datasets.get_highcharts_volatility()
     )
