@@ -7,8 +7,8 @@ var RenderCorrelations = function(name, symbols, negativeCorrelations, positiveC
           type: 'line'
       },
       title: {
-          text: name,
-          x: -80
+          text: null,
+          enabled: false
       },
       pane: {
           size: '80%'
@@ -28,10 +28,7 @@ var RenderCorrelations = function(name, symbols, negativeCorrelations, positiveC
           pointFormat: '<span><b style="color:{series.color}">{point.y:,.2f}</b><br/>'
       },
       legend: {
-          align: 'right',
-          verticalAlign: 'top',
-          y: 70,
-          layout: 'vertical'
+          enabled: false
       },
       series: [{
           name: 'Negative Correlations',

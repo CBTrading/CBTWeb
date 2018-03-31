@@ -25,7 +25,7 @@ var RenderCandlesticks = function(name, candles, volume) {
       selected: 1
     },
     title: {
-      text: name
+      enabled: false
     },
     yAxis: [{
       labels: {
