@@ -42,6 +42,6 @@ class DateRangePickerWidget(object):
         })
 
 class CandlesForm(FlaskForm):
-    instrument = SelectField("Instrument", choices=zip(instruments["symbol"], instruments["name"]))
+    instrument = SelectField("Instrument", choices=[(symbol, instruments[symbol]["name"]) for symbol in instruments.keys()])
     resolution = SelectField("Resolution", choices=zip("M15 M30 H1 H6 H12 D".split(), "M15 M30 H1 H6 H12 D".split()))
     datetime_range = DateRangeField("Date range", validators=[required()], widget=DateRangePickerWidget())
