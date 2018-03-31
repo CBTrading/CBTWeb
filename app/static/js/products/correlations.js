@@ -2,16 +2,22 @@ var RenderCorrelations = function(name, symbols, negativeCorrelations, positiveC
 
   return Highcharts.chart("correlations", {
 
-      chart: {
-          polar: true,
-          type: 'line'
+      credits: {
+        enabled: false
+      },
+      exporting: {
+        enabled: false
+      },
+      legend: {
+        enabled: false
       },
       title: {
           text: null,
           enabled: false
       },
-      pane: {
-          size: '80%'
+      chart: {
+        polar: true,
+        type: 'line'
       },
       xAxis: {
           categories: symbols,
@@ -27,23 +33,17 @@ var RenderCorrelations = function(name, symbols, negativeCorrelations, positiveC
           shared: true,
           pointFormat: '<span><b style="color:{series.color}">{point.y:,.2f}</b><br/>'
       },
-      legend: {
-          enabled: false
-      },
-      series: [{
-          name: 'Negative Correlations',
-          data: negativeCorrelations,
-          pointPlacement: 'on'
-      }, {
+      series: [
+        {
           name: 'Positive Correlations',
           data: positiveCorrelations,
           pointPlacement: 'on'
-      }],
-      credits: {
-        enabled: false
-      },
-      exporting: {
-        enabled: false
-      }
+        },
+        {
+          name: 'Negative Correlations',
+          data: negativeCorrelations,
+          pointPlacement: 'on'
+        }
+      ]
   });
 };

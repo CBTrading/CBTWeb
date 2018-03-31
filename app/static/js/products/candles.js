@@ -21,10 +21,17 @@ var RenderCandlesticks = function(name, candles, volume) {
     ]
   ];
   return Highcharts.stockChart('candles', {
+    credits: {
+      enabled: false
+    },
+    exporting: {
+      enabled: false
+    },
     rangeSelector: {
       selected: 1
     },
     title: {
+      text: null,
       enabled: false
     },
     yAxis: [{
@@ -73,12 +80,6 @@ var RenderCandlesticks = function(name, candles, volume) {
       dataGrouping: {
         units: groupingUnits
       }
-    }],
-    credits: {
-      enabled: false
-    },
-    exporting: {
-      enabled: false
-    }
+    }]
   });
 };
