@@ -78,7 +78,7 @@
   <script src="{{ url_for('static', filename='js/products/candles.js') }}"></script>
   <script src="{{ url_for('static', filename='js/products/correlations.js') }}"></script>
   <script src="{{ url_for('static', filename='js/products/heatmap.js') }}"></script>
-  <!-- <script src="{{ url_for('static', filename='js/products/volatility.js') }}"></script> -->
+  <script src="{{ url_for('static', filename='js/products/volatility.js') }}"></script>
   <script>
     $(document).ready(function() {
 
@@ -104,6 +104,11 @@
         symbols={{ heatmap.categories|tojson|safe }},
         negativeHeat={{ heatmap.series.negative|tojson|safe }},
         positiveHeat={{ heatmap.series.positive|tojson|safe }}
+      );
+      RenderVolatility(
+        name={{ volatility.name|tojson|safe }},
+        symbols={{ volatility.categories|tojson|safe }},
+        volatility={{ volatility.series|tojson|safe }}
       );
     });
   </script>

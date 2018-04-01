@@ -120,11 +120,11 @@ class Datasets(object):
         data = {
             "name": self.for_charts["name_i"],
             "categories": self.for_charts["names_j"],
-            "volatility": []
+            "series": []
         }
         for price_j in self.for_charts["prices_j"]:
             mu = np.median(price_j)
             sg = np.percentile(price_j, [16, 84])
-            data["volatility"] += [[round((sg[0]/mu-1)*100, 2), round((sg[1]/mu-1)*100, 2)]]
+            data["series"] += [[round((sg[0]/mu-1)*100, 2), round((sg[1]/mu-1)*100, 2)]]
 
         return data
