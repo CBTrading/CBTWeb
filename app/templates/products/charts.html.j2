@@ -54,19 +54,23 @@
     <div class="col-sm-8">
       <!--    display candles-->
       <div class="row">
+        <h3>Candlesticks - {{ candles.name|safe }}</h3>
         <div id="candles"></div>
       </div>
     </div>
     <!--2nd column: display charts-->
     <div class="col-sm-3 col-sm-offset-1">
       <div class="row">
+        <h4>Correlations</h4>
         <div id="correlations"></div>
       </div>
       <div class="row">
-        <div id="volatility"></div>
+        <h4>Heatmap</h4>
+        <div id="heatmap"></div>
       </div>
       <div class="row">
-        <div id="heatmap"></div>
+        <h4>Volatility</h4>
+        <div id="volatility"></div>
       </div>
     </div>
   </div>
