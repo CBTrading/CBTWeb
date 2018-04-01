@@ -28,12 +28,12 @@ var RenderCandlesticks = function(name, candles, volume) {
       enabled: false
     },
     plotOptions: {
-        candlestick: {
-            color: '#D66F37',
-            upColor: '#38BB9B',
-            lineColor: '#1D1F21',
-            lineWidth: 1
-        }
+      candlestick: {
+        color: '#D66F37',
+        upColor: '#38BB9B',
+        lineColor: '#1D1F21',
+        lineWidth: 1
+      }
     },
     rangeSelector: {
       selected: 1

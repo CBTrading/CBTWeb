@@ -8,52 +8,46 @@ var RenderHeatmap = function(name, symbols, negativeHeat, positiveHeat) {
     exporting: {
       enabled: false
     },
+    plotOptions: {
+      bar: {
+        dataLabels: {
+          enabled: true,
+          format: '{y:,.3f}%'
+        }
+      },
+      series: {
+        stacking: 'normal'
+      }
+    },
     legend: {
       enabled: false
     },
     title: {
-        text: null,
-        enabled: false
+      text: null,
+      enabled: false
     },
     chart: {
-        type: 'bar'
+      type: 'bar'
     },
     xAxis: [
       {
         categories: symbols,
         reversed: false,
         labels: {
-            step: 1
-        }
-      },
-      {
-        opposite: true,
-        reversed: false,
-        categories: symbols,
-        linkedTo: 0,
-        labels: {
-            step: 1
+          step: 1
         }
       }
     ],
     yAxis: {
-        title: {
-            text: null
-        },
-        labels: {
-            formatter: function () {
-                return this.value + '%';
-            }
-        }
-    },
-    plotOptions: {
-        series: {
-            stacking: 'normal'
-        }
+      title: {
+        text: null
+      },
+      format: '{value}%'
     },
     tooltip: {
       shared: false,
-      pointFormat: '<span><b style="color:{series.color}">{point.y:,.3f}</b><br/>'
+      headerFormat: '<span style="font-size: 7px">{point.key}</span><br/>',
+      pointFormat: '<span><b style="font-weight:bold;color:{series.color}">{point.y:,.3f}%</b><br/>'
     },
     series: [
       {
