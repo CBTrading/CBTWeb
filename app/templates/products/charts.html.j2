@@ -82,12 +82,9 @@
   <script>
     $(document).ready(function() {
 
-      $('.input-daterange input').each(function() {
+      $('.input-daterange').each(function() {
         $(this).datepicker({
-          format: "yyyy-mm-dd",
-          todayBtn: "linked",
-          clearBtn: true,
-          todayHighlight: true
+          format: "yyyy-mm-dd"
         });
       });
 
