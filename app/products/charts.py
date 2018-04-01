@@ -81,10 +81,10 @@ class Datasets(object):
         for price_j in self.for_charts["prices_j"]:
             corr_ij = np.corrcoef(price_i, price_j)[1, 0]
             if corr_ij < 0:
-                data["series"]["negative"] += [-corr_ij]
-                data["series"]["positive"] += [0.0]
+                data["series"]["negative"] += [corr_ij]
+                data["series"]["positive"] += [None]
             else:
-                data["series"]["negative"] += [0.0]
+                data["series"]["negative"] += [None]
                 data["series"]["positive"] += [corr_ij]
 
         return data
@@ -109,9 +109,9 @@ class Datasets(object):
             heat_ij = (exrate_ij[-1] - exrate_ij[0]) / exrate_ij[0] * 100.0
             if heat_ij < 0:
                 data["series"]["negative"] += [heat_ij]
-                data["series"]["positive"] += [0.0]
+                data["series"]["positive"] += [None]
             else:
-                data["series"]["negative"] += [0.0]
+                data["series"]["negative"] += [None]
                 data["series"]["positive"] += [heat_ij]
 
         return data
