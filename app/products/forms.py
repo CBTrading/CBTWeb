@@ -23,22 +23,25 @@ class DateRangeField(DateField):
 
 class DateRangePickerWidget(object):
     data_template = (
-        '<div class="input-group input-daterange col-md-12">'
-        '<input %(input-1)s>'
+        '<div id="datepicker" class="input-daterange input-group">'
+        '<input %(input-1)s name="start">'
         '<div class="input-group-addon">to</div>'
-        '<input %(input-2)s>'
+        '<input %(input-2)s name="end">'
         '</div>'
     )
 
     def __call__(self, field, **kwargs):
+        kwargs.setdefault("type", "text")
+        kwargs.setdefault("id", field.id)
+        kwargs.setdefault("name", field.name)
         if not field.data:
             data_1, data_2 = "", ""
         else:
             data_1, data_2 = field.data
 
         return HTMLString(self.data_template % {
-            "input-1": html_params(id="{}-1".format(field.id), name="{}".format(field.name), type="text", value=data_1, **kwargs),
-            "input-2": html_params(id="{}-2".format(field.id), name="{}".format(field.name), type="text", value=data_2, **kwargs)
+            "input-1": html_params(value=data_1, **kwargs),
+            "input-2": html_params(value=data_2, **kwargs)
         })
 
 class CandlesForm(FlaskForm):
