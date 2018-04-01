@@ -22,4 +22,4 @@ CSRF_SESSION_KEY = "secret"
 SECRET_KEY = "secret"
 
 # Short-term cache
-SEND_FILE_MAX_AGE_DEFAULT = 10
+SEND_FILE_MAX_AGE_DEFAULT = 1

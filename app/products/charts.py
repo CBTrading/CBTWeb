@@ -41,6 +41,7 @@ class Datasets(object):
             "price_i": price_i,
             "prices_j": prices_j
         }
+        return None
 
     def get_highcharts_candles(self):
         """Returns the candles data dictionary

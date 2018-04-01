@@ -42,7 +42,7 @@ var RenderHeatmap = function(name, symbols, negativeHeat, positiveHeat) {
         },
         labels: {
             formatter: function () {
-                return Math.abs(this.value) + '%';
+                return this.value + '%';
             }
         }
     },
@@ -52,26 +52,20 @@ var RenderHeatmap = function(name, symbols, negativeHeat, positiveHeat) {
         }
     },
     tooltip: {
-        formatter: function () {
-            return '<b>' + this.series.name + ', age ' + this.point.category + '</b><br/>' +
-                'Population: ' + Highcharts.numberFormat(Math.abs(this.point.y), 0);
-        }
+      shared: false,
+      pointFormat: '<span><b style="color:{series.color}">{point.y:,.3f}</b><br/>'
     },
     series: [
       {
         name: 'Positive',
-        data: positiveHeat
+        data: positiveHeat,
+        color: '#38BB9B'
       },
       {
         name: 'Negative',
-        data: negativeHeat
+        data: negativeHeat,
+        color: '#D66F37'
       }
-    ],
-    credits: {
-      enabled: false
-    },
-    exporting: {
-      enabled: false
-    }
+    ]
   });
 };

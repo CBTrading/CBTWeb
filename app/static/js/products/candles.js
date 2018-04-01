@@ -27,6 +27,14 @@ var RenderCandlesticks = function(name, candles, volume) {
     exporting: {
       enabled: false
     },
+    plotOptions: {
+        candlestick: {
+            color: '#D66F37',
+            upColor: '#38BB9B',
+            lineColor: '#1D1F21',
+            lineWidth: 1
+        }
+    },
     rangeSelector: {
       selected: 1
     },
@@ -34,33 +42,17 @@ var RenderCandlesticks = function(name, candles, volume) {
       text: null,
       enabled: false
     },
-    yAxis: [{
-      labels: {
-        align: 'right',
-        x: -3
-      },
+    xAxis: {
+      gridLineWidth: 1
+    },
+    yAxis: {
       title: {
         text: 'Prices'
       },
-      height: '60%',
-      lineWidth: 2,
       resize: {
         enabled: true
       }
     },
-    {
-      labels: {
-        align: 'right',
-        x: -3
-      },
-      title: {
-        text: 'Volume'
-      },
-      top: '65%',
-      height: '35%',
-      offset: 0,
-      lineWidth: 2
-    }],
     tooltip: {
       split: true
     },
@@ -68,15 +60,6 @@ var RenderCandlesticks = function(name, candles, volume) {
       type: 'candlestick',
       name: name,
       data: candles,
-      dataGrouping: {
-        units: groupingUnits
-      }
-    },
-    {
-      type: 'column',
-      name: 'Volume',
-      data: volume,
-      yAxis: 1,
       dataGrouping: {
         units: groupingUnits
       }

@@ -30,19 +30,28 @@ var RenderCorrelations = function(name, symbols, negativeCorrelations, positiveC
           min: 0
       },
       tooltip: {
-          shared: true,
+          shared: false,
           pointFormat: '<span><b style="color:{series.color}">{point.y:,.2f}</b><br/>'
+      },
+      plotOptions: {
+        series: {
+          marker: {
+            enabled: false
+          }
+        }
       },
       series: [
         {
           name: 'Positive Correlations',
           data: positiveCorrelations,
-          pointPlacement: 'on'
+          pointPlacement: 'on',
+          color: '#38BB9B'
         },
         {
           name: 'Negative Correlations',
           data: negativeCorrelations,
-          pointPlacement: 'on'
+          pointPlacement: 'on',
+          color: '#D66F37'
         }
       ]
   });
