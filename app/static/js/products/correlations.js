@@ -1,58 +1,71 @@
 var RenderCorrelations = function(name, symbols, negativeCorrelations, positiveCorrelations) {
 
-  return Highcharts.chart("correlations", {
+  return Highcharts.chart('correlations', {
 
-      credits: {
+    credits: {
+      enabled: false
+    },
+    exporting: {
+      enabled: false
+    },
+    legend: {
+      enabled: false
+    },
+    title: {
+        text: null,
         enabled: false
-      },
-      exporting: {
-        enabled: false
-      },
-      legend: {
-        enabled: false
-      },
-      title: {
-          text: null,
-          enabled: false
-      },
-      chart: {
-        polar: true,
-        type: 'line'
-      },
-      xAxis: {
-          categories: symbols,
-          tickmarkPlacement: 'on',
-          lineWidth: 0
-      },
-      yAxis: {
-          gridLineInterpolation: 'polygon',
-          lineWidth: 0,
-          min: 0
-      },
-      tooltip: {
-          shared: false,
-          pointFormat: '<span><b style="color:{series.color}">{point.y:,.2f}</b><br/>'
-      },
-      plotOptions: {
-        series: {
-          marker: {
-            enabled: false
-          }
+    },
+    chart: {
+        type: 'bar'
+    },
+    xAxis: [
+      {
+        categories: symbols,
+        reversed: false,
+        labels: {
+            step: 1
         }
       },
-      series: [
-        {
-          name: 'Positive Correlations',
-          data: positiveCorrelations,
-          pointPlacement: 'on',
-          color: '#38BB9B'
+      {
+        opposite: true,
+        reversed: false,
+        categories: symbols,
+        linkedTo: 0,
+        labels: {
+            step: 1
+        }
+      }
+    ],
+    yAxis: {
+        title: {
+            text: null
         },
-        {
-          name: 'Negative Correlations',
-          data: negativeCorrelations,
-          pointPlacement: 'on',
-          color: '#D66F37'
+        labels: {
+            formatter: function () {
+                return this.value + '%';
+            }
         }
-      ]
+    },
+    plotOptions: {
+        series: {
+            stacking: 'normal'
+        }
+    },
+    tooltip: {
+      shared: false,
+      pointFormat: '<span><b style="color:{series.color}">{point.y:,.3f}</b><br/>'
+    },
+    series: [
+      {
+        name: 'Positive',
+        data: positiveCorrelations,
+        color: '#38BB9B'
+      },
+      {
+        name: 'Negative',
+        data: negativeCorrelations,
+        color: '#D66F37'
+      }
+    ]
   });
 };
