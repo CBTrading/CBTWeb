@@ -10,58 +10,55 @@
 
 <!--display header bar-->
 {% block content %}
-  <!--in three column format-->
-  <div class="row">
-    <!--1st column: display relevant news-->
-    <div class="col-md-3">
-      <!--    display forms-->
-      <div class="row well">
-        <h3>Settings</h3>
-        <form id="candles-form" action="{{ url_for('products.charts') }}" method="POST">
-          {{ form.csrf_token }}
+  <div class="container">
+    <!--in one column format-->
+    <!--    display forms-->
+    <div class="row well well-sm">
+      <h3 class="col-sm-12">Settings</h3>
+      <form id="candles-form" action="{{ url_for('products.charts') }}" method="POST">
+        {{ form.csrf_token }}
 
-          <div class="form-group col-md-12 {% if form.instrument.errors %}has-error{% endif %}">
-            <label class="form-control-label" for="{{ form.instrument.name }}">{{ form.instrument.label }}</label>
-            {{ form.instrument(class="form-control") }}
-            <div class="help-block">
-              {% for error in form.instrument.errors %}{{ error }}{% endfor %}
-            </div>
+        <div class="form-group form-group-sm col-sm-12 {% if form.instrument.errors %}has-error{% endif %}">
+          <label class="form-control-label" for="{{ form.instrument.name }}">{{ form.instrument.label }}</label>
+          {{ form.instrument(class="form-control") }}
+          <div class="help-block">
+            {% for error in form.instrument.errors %}{{ error }}{% endfor %}
           </div>
+        </div>
 
-          <div class="form-group col-md-12 {% if form.resolution.errors %}has-error{% endif %}">
-            <label class="form-control-label" for="{{ form.resolution.name }}">{{ form.resolution.label }}</label>
-            {{ form.resolution(class="form-control") }}
-            <div class="help-block">
-              {% for error in form.resolution.errors %}{{ error }}{% endfor %}
-            </div>
+        <div class="form-group form-group-sm col-sm-12 {% if form.resolution.errors %}has-error{% endif %}">
+          <label class="form-control-label" for="{{ form.resolution.name }}">{{ form.resolution.label }}</label>
+          {{ form.resolution(class="form-control") }}
+          <div class="help-block">
+            {% for error in form.resolution.errors %}{{ error }}{% endfor %}
           </div>
+        </div>
 
-          <div class="form-group col-md-12 {% if form.datetime_range.errors %}has-error{% endif %}">
-            <label class="form-control-label" for="{{ form.datetime_range.name }}">{{ form.datetime_range.label }}</label>
-            {{ form.datetime_range(class="form-control") }}
-            <div class="help-block">
-              {% for error in form.datetime_range.errors %}{{ error }}{% endfor %}
-            </div>
+        <div class="form-group form-group-sm col-sm-12 {% if form.datetime_range.errors %}has-error{% endif %}">
+          <label class="form-control-label" for="{{ form.datetime_range.name }}">{{ form.datetime_range.label }}</label>
+          {{ form.datetime_range(class="form-control") }}
+          <div class="help-block">
+            {% for error in form.datetime_range.errors %}{{ error }}{% endfor %}
           </div>
+        </div>
 
-          <div class="form-group col-md-12">
-            <button type="submit" class="btn btn-primary">Update</button>
-            <button type="reset" class="btn btn-default">Reset</button>
-          </div>
-        </form>
-      </div>
+        <div class="form-group form-group-sm col-sm-12">
+          <button type="submit" class="btn btn-primary">Update</button>
+          <button type="reset" class="btn btn-default">Reset</button>
+        </div>
+      </form>
     </div>
-    <!--2nd column: display live candlesticks-->
-    <div class="col-md-6">
+    <!--display settings  -->
+    <!--in two column format-->
+    <!--1st column: display live candlesticks-->
+    <div class="col-sm-8">
       <!--    display candles-->
       <div class="row">
         <div id="candles"></div>
       </div>
     </div>
-    <!--3rd column: display streaming prices for selected instruments-->
-    <div class="col-md-3">
-      <!--    display forms-->
-      <!--    display heatmap, correlation & volatility charts-->
+    <!--2nd column: display charts-->
+    <div class="col-sm-3 col-sm-offset-1">
       <div class="row">
         <div id="correlations"></div>
       </div>

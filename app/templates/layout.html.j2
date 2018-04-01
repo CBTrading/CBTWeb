@@ -13,7 +13,7 @@
   </head>
   <body>
     <nav class="navbar navbar-default">
-      <div class="container-fluid">
+      <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
             <span class="sr-only">Toggle navigation</span>
@@ -36,11 +36,16 @@
       </div>
     </nav>
 
-    <div id="content" class="container-fluid">
+    <div id="content" class="row">
       {% block content %}{% endblock %}
     </div>
-    <div id="footer">
-      {% block footer %}&copy; Copyright 2018 by <a href="#">you</a>.{% endblock %}
+
+    <div id="footer" class="row">
+      <div class="container">
+        <p class="center-block">
+          &copy; Copyright 2018 by <a href="#">you</a>
+        </p>
+      </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
