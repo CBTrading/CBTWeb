@@ -21,6 +21,11 @@ def charts():
             "resolution": form.resolution.data,
             "datetimes": form.datetime_range.data
         })
+    else:
+        form.instrument.data = datasets.settings.get("candles_symbol")
+        form.resolution.data = datasets.settings.get("resolution")
+        form.datetime_range.data = datasets.settings.get("datetimes")
+
     datasets.download()
 
     return render_template(
