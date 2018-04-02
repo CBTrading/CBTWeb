@@ -12,7 +12,7 @@ var RenderHeatmap = function(name, symbols, negativeHeat, positiveHeat) {
       bar: {
         dataLabels: {
           enabled: true,
-          format: '{y:,.3f}%'
+          format: '{y:,.2f}%'
         }
       },
       series: {
@@ -46,8 +46,8 @@ var RenderHeatmap = function(name, symbols, negativeHeat, positiveHeat) {
     },
     tooltip: {
       shared: false,
-      headerFormat: '<span style="font-size: 7px">{point.key}</span><br/>',
-      pointFormat: '<span><b style="font-weight:bold;color:{series.color}">{point.y:,.3f}%</b><br/>'
+      headerFormat: '<span style="font-size: 10px">'+name+' vs {point.key}</span><br/>',
+      pointFormat: '<span><b style="font-weight:bold;color:{series.color}">{point.y:,.2f}%</b><br/>'
     },
     series: [
       {

@@ -12,7 +12,7 @@ var RenderVolatility = function(name, symbols, volatility) {
       columnrange: {
         dataLabels: {
           enabled: true,
-          format: '{y}%'
+          format: '{y:,.2f}%'
         }
       }
     },
@@ -37,7 +37,8 @@ var RenderVolatility = function(name, symbols, volatility) {
       format: '{value}%'
     },
     tooltip: {
-      pointFormat: '<span><b style="font-weight:bold;color:{series.color}">{point.low:,.3f} - {point.high:,.3f}%</b><br/>'
+      headerFormat: '<span style="font-size: 10px">{point.key}</span><br/>',
+      pointFormat: '<span><b style="font-weight:bold;color:{series.color}">{point.low:,.2f} - {point.high:,.2f}%</b><br/>'
     },
     series: [{
       name: name,

@@ -12,7 +12,7 @@ var RenderCorrelations = function(name, symbols, negativeCorrelations, positiveC
       bar: {
           dataLabels: {
               enabled: true,
-              format: '{y:,.3f}%'
+              format: '{y:,.2f}%'
           }
       },
       series: {
@@ -46,7 +46,8 @@ var RenderCorrelations = function(name, symbols, negativeCorrelations, positiveC
     },
     tooltip: {
       shared: false,
-      pointFormat: '<span><b style="font-weight:bold;color:{series.color}">{point.y:,.3f}%</b><br/>'
+      headerFormat: '<span style="font-size: 10px">'+name+' vs {point.key}</span><br/>',
+      pointFormat: '<span><b style="font-weight:bold;color:{series.color}">{point.y:,.2f}%</b><br/>'
     },
     series: [
       {
