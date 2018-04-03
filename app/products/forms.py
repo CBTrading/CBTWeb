@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import SelectField, DateField, StringField
+from wtforms import SelectField, DateField, StringField, SelectMultipleField
 from wtforms.validators import required
 from wtforms.widgets import HTMLString, html_params
 
@@ -48,3 +48,8 @@ class CandlesForm(FlaskForm):
     instrument = SelectField("Instrument", choices=[(symbol, instruments[symbol]["name"]) for symbol in instruments.keys()])
     resolution = SelectField("Resolution", choices=zip("M15 M30 H1 H6 H12 D".split(), "M15 M30 H1 H6 H12 D".split()))
     datetime_range = DateRangeField("Date range", validators=[required()], widget=DateRangePickerWidget())
+
+class ChartsForm(FlaskForm):
+    instrument_types = SelectMultipleField("Instrument type", choices=zip(("com", "met", "exo", "cdf"), ("common", "metals", "exotic", "CDFs")))
+    instrument = SelectField("Reference instrument", choices=[(symbol, instruments[symbol]["name"]) for symbol in instruments.keys()])
+    vs_instruments = SelectMultipleField("Instruments", choices=[(symbol, instruments[symbol]["name"]) for symbol in instruments.keys()])
