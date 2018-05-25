@@ -1,5 +1,6 @@
 from pyCBT.providers.oanda import account
 import numpy as np
+from datetime import datetime, timedelta
 
 client = account.Client()
 
@@ -111,22 +112,43 @@ oanda_symbols = [
 fxchoice_symbols = []
 market_names = []
 for market in sorted(markets):
-    symbols = np.genfromtxt("./app/static/data/{}.csv".format(market), usecols=(0,), delimiter=",", skip_header=1, dtype=np.str)
+    symbols = np.genfromtxt(
+        "./app/static/data/{}.csv".format(market),
+        usecols=(0,),
+        delimiter=",",
+        skip_header=1,
+        dtype=np.str
+    )
     fxchoice_symbols += list(symbols)
     market_names += [markets.get(market)] * symbols.size
 
-instruments = {symbol: {"FXChoice": fxchoice_symbols[i], "name": instrument_names[i], "type": market_names[i]} for i, symbol in enumerate(oanda_symbols)}
-
+instruments = {
+    symbol: {
+        "FXChoice": fxchoice_symbols[i],
+        "name": instrument_names[i],
+        "type": market_names[i]} for i, symbol in enumerate(oanda_symbols)
+}
 charts_time_groups = {
     "H1": [4, 12],
     "D": [5, 10, 14, 22]
 }
+timeframes = {
+    "1 day": {"resolution": "M15", "bins": 4*24},
+    "2 days": {"resolution": "M15", "bins": 4*2*24},
+    "3 days": {"resolution": "M15", "bins": 4*3*24},
+    "4 days": {"resolution": "M30", "bins": 2*4*24},
+    "5 days": {"resolution": "M30", "bins": 2*5*24},
+    "2 weeks": {"resolution": "H1", "bins": 10*24},
+    "1 month": {"resolution": "H4", "bins": 6*20}
+}
+fdatetime = datetime.today()
+idatetime = fdatetime - timedelta(days=365)
 settings_default = {
-    "candles_symbol": "WTICO_USD",
+    "candles_symbol": "SPX500_USD",
     "charts_symbols": ["EUR_USD", "USD_JPY", "GBP_USD", "XAU_USD"],
-    "resolution": "H1",
-    "datetimes": ("2017-01-01", "2018-01-01"),
+    "resolution": timeframes["1 day"]["resolution"],
+    "datetimes": (idatetime.strftime("%Y-%m-%d %H:%M:%S"), fdatetime.strftime("%Y-%m-%d %H:%M:%S")),
     "timezone": "America/New_York",
-    "timeframe": charts_time_groups["H1"][0],
+    "timeframe": timeframes["1 day"]["bins"],
     "price": "Close"
 }
